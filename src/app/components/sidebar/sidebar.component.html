@@ -1,0 +1,19 @@
+<div class="sidebar">
+  <div class="user-profile">
+    <img [src]="user.profilePic" alt="Profile picture">
+    <h3>{{user.name}}</h3>
+  </div>
+
+  <button class="add-playlist-btn" (click)="addPlaylist()">
+    + Añadir Playlist
+  </button>
+
+  <div class="playlists-container">
+    <h4>Tus Playlists</h4>
+    <div class="playlists-list">
+      <div class="playlist-item" *ngFor="let playlist of playlists">
+        {{playlist}}
+      </div>
+    </div>
+  </div>
+</div>

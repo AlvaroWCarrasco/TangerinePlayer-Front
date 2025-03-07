@@ -1,0 +1,28 @@
+{
+  "genres": [
+    {
+      "id": "1",
+      "name": "Indie Electronic",
+      "coverUrl": "https://picsum.photos/seed/genre1/300/300",
+      "description": "Experimental electronic music with an indie twist",
+      "popularSongs": ["1"],
+      "popularArtists": ["Luna Eclipse"]
+    },
+    {
+      "id": "2",
+      "name": "Alternative Rock",
+      "coverUrl": "https://picsum.photos/seed/genre2/300/300",
+      "description": "Modern rock with alternative influences",
+      "popularSongs": ["2"],
+      "popularArtists": ["The City Lights"]
+    },
+    {
+      "id": "3",
+      "name": "World Fusion",
+      "coverUrl": "https://picsum.photos/seed/genre3/300/300",
+      "description": "A blend of world music styles",
+      "popularSongs": ["3"],
+      "popularArtists": ["Nomad Soul"]
+    }
+  ]
+}

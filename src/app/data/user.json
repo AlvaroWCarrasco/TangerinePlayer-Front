@@ -1,0 +1,9 @@
+{
+  "user": {
+    "id": "user123",
+    "username": "MusicExplorer",
+    "email": "music@example.com",
+    "profilePic": "https://picsum.photos/seed/user/300/300",
+    "playlists": ["1", "2"]
+  }
+}
