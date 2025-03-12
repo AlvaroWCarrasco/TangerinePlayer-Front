@@ -14,7 +14,7 @@ export class HeaderComponent {
   searchResults: any[] = [];
 
   onSearch() {
-    // TODO: Implement Spotify API search
+    // Implementación API Spotify
     console.log('Searching for:', this.searchQuery);
   }
 }
