@@ -1,12 +1,13 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-player',
   templateUrl: './player.component.html',
   styleUrls: ['./player.component.css'],
   standalone: true,
-  imports: [CommonModule]
+  imports: [CommonModule, MatIconModule]
 })
 export class PlayerComponent {
   currentSong = {
