@@ -1,0 +1,52 @@
+<div class="player">
+    <div class="song-info">
+      <img [src]="currentSong.image" [alt]="currentSong.title">
+      <div class="song-details">
+        <div class="song-title">{{currentSong.title}}</div>
+        <div class="song-artist">{{currentSong.artist}}</div>
+      </div>
+    </div>
+
+    <div class="player-controls">
+      <div class="control-buttons">
+        <button class="control-button">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+            <path d="M13 2L3 8l10 6V2z" transform="rotate(180 8 8)"/>
+          </svg>
+        </button>
+        <button class="control-button play-button">
+          <svg *ngIf="!isPlaying" width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M8 5v14l11-7L8 5z"/>
+          </svg>
+          <svg *ngIf="isPlaying" width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>
+          </svg>
+        </button>
+        <button class="control-button">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+            <path d="M13 2L3 8l10 6V2z"/>
+          </svg>
+        </button>
+      </div>
+      <div class="progress-container">
+        <span class="time">{{currentSong.currentTime}}</span>
+        <div class="progress-bar">
+          <div class="progress" [style.width.%]="currentSong.progress"></div>
+        </div>
+        <span class="time">{{currentSong.duration}}</span>
+      </div>
+    </div>
+
+    <div class="volume-control">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+        <path d="M12.5 3.3v9.4L8.8 9.8H6.1v-3.6h2.7l3.7-2.9zm-7.1 6.9H3.2V5.8h2.2v4.4zm5.6-1L8.8 7.4V8.6l2.2 1.8V5.6L8.8 7.4v1.2l2.2-1.8v3z"/>
+      </svg>
+      <input 
+        type="range" 
+        min="0" 
+        max="100" 
+        [value]="volume" 
+        class="volume-slider"
+      >
+    </div>
+  </div>
