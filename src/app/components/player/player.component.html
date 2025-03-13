@@ -1,42 +1,43 @@
 <div class="player">
-    <div class="song-info">
-      <img [src]="currentSong.image" [alt]="currentSong.title">
-      <div class="song-details">
-        <div class="song-title">{{currentSong.title}}</div>
-        <div class="song-artist">{{currentSong.artist}}</div>
-      </div>
+  <div class="song-info">
+    <img [src]="currentSong.image" [alt]="currentSong.title">
+    <div class="song-details">
+      <div class="song-title">{{currentSong.title}}</div>
+      <div class="song-artist">{{currentSong.artist}}</div>
     </div>
-
-    <div class="player-controls">
-        <div class="control-buttons">
-          <button class="control-button">
-            <mat-icon>skip_previous</mat-icon>
-          </button>
-          <button class="control-button play-button">
-            <mat-icon *ngIf="!isPlaying">play_arrow</mat-icon>
-            <mat-icon *ngIf="isPlaying">pause</mat-icon>
-          </button>
-          <button class="control-button">
-            <mat-icon>skip_next</mat-icon>
-          </button>
-        </div>
-        <div class="progress-container">
-          <span class="time">{{currentSong.currentTime}}</span>
-          <div class="progress-bar">
-            <div class="progress" [style.width.%]="currentSong.progress"></div>
-          </div>
-          <span class="time">{{currentSong.duration}}</span>
-        </div>
-      </div>
-
-      <div class="volume-control">
-        <mat-icon>volume_up</mat-icon>
-        <input 
-          type="range" 
-          min="0" 
-          max="100" 
-          [value]="volume" 
-          class="volume-slider"
-        >
-      </div>
   </div>
+
+  <div class="player-controls">
+    <div class="control-buttons">
+      <button class="control-button">
+        <mat-icon>skip_previous</mat-icon>
+      </button>
+      <button class="control-button play-button" (click)="togglePlay()">
+        <mat-icon *ngIf="!isPlaying">play_arrow</mat-icon>
+        <mat-icon *ngIf="isPlaying">pause</mat-icon>
+      </button>
+      <button class="control-button">
+        <mat-icon>skip_next</mat-icon>
+      </button>
+    </div>
+    <div class="progress-container">
+      <span class="time">{{currentSong.currentTime}}</span>
+      <div class="progress-bar" (click)="seek($event)">
+        <div class="progress" [style.width.%]="currentSong.progress"></div>
+      </div>
+      <span class="time">{{currentSong.duration}}</span>
+    </div>
+  </div>
+
+  <div class="volume-control">
+    <mat-icon>volume_up</mat-icon>
+    <input 
+      type="range" 
+      min="0" 
+      max="100" 
+      [value]="volume" 
+      (input)="updateVolume($event)"
+      class="volume-slider"
+    >
+  </div>
+</div>
