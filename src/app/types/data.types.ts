@@ -6,7 +6,6 @@ export interface Song {
   duration: string;
   coverUrl: string;
   audioUrl: string;
-  genre: string;
 }
 
 export interface Playlist {
@@ -14,18 +13,15 @@ export interface Playlist {
   name: string;
   description: string;
   coverUrl: string;
-  createdBy: string;
-  songs: string[];
-  followers: number;
+  songs: Song[];
 }
 
 export interface Genre {
   id: string;
   name: string;
-  coverUrl: string;
   description: string;
-  popularSongs: string[];
-  popularArtists: string[];
+  coverUrl: string;
+  songs: string[];
 }
 
 export interface User {
@@ -33,7 +29,16 @@ export interface User {
   username: string;
   email: string;
   profilePic: string;
+  following: number;
+  followers: number;
   playlists: string[];
+  recentlyPlayed: string[];
+  likedSongs: string[];
+  preferences: {
+    theme: string;
+    language: string;
+    notifications: boolean;
+  };
 }
 
 export interface SongsData {

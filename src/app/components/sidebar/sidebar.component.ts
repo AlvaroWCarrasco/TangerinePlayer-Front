@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import userData from '../../data/user.json';
 import playlistsData from '../../data/playlists.json';
-import { UserData, PlaylistsData, Playlist } from '../../types/data.types';
+import { UserData, PlaylistsData } from '../../types/data.types';
 
 @Component({
   selector: 'app-sidebar',
@@ -17,7 +17,7 @@ export class SidebarComponent {
     profilePic: (userData as UserData).user.profilePic
   };
 
-  playlists = (playlistsData as PlaylistsData).playlists.map((playlist: Playlist) => playlist.name);
+  playlists = (playlistsData as PlaylistsData).playlists.map(playlist => playlist.name);
 
   addPlaylist() {
     console.log('Adding new playlist');

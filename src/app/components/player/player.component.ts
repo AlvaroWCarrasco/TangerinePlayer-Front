@@ -1,7 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
-import songsData from '../../data/songs.json';
+import { MusicService } from '../../services/music.service';
+import { CurrentSong } from '../../interfaces/music.interfaces';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-player',
@@ -10,83 +12,53 @@ import songsData from '../../data/songs.json';
   standalone: true,
   imports: [CommonModule, MatIconModule]
 })
-export class PlayerComponent {
-  private audio: HTMLAudioElement | null = null;
-  currentSong = {
-    title: songsData.songs[0].title,
-    artist: songsData.songs[0].artist,
-    image: songsData.songs[0].coverUrl,
-    currentTime: '0:00',
-    duration: '0:00',
-    progress: 0
-  };
-
-  volume = 100;
+export class PlayerComponent implements OnInit, OnDestroy {
+  currentSong!: CurrentSong;
+  private subscription: Subscription | null = null;
+  volume = 50;
   isPlaying = false;
-  audioUrl = 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3';
+
+  constructor(private musicService: MusicService) {}
 
   ngOnInit() {
-    this.audio = new Audio(this.audioUrl);
-    this.audio.volume = this.volume / 100;
-
-    this.audio.addEventListener('timeupdate', () => this.updateProgress());
-    this.audio.addEventListener('loadedmetadata', () => {
-      this.currentSong.duration = this.formatTime(this.audio?.duration || 0);
-    });
-    this.audio.addEventListener('ended', () => {
-      this.isPlaying = false;
-      this.currentSong.currentTime = '0:00';
-      this.currentSong.progress = 0;
+    this.subscription = this.musicService.currentSong$.subscribe(song => {
+      this.currentSong = song;
+      this.isPlaying = this.musicService.isPlaying;
     });
   }
 
   ngOnDestroy() {
-    if (this.audio) {
-      this.audio.pause();
-      this.audio.currentTime = 0;
-      this.audio.removeEventListener('timeupdate', () => this.updateProgress());
-      this.audio.removeEventListener('loadedmetadata', () => {});
-      this.audio.removeEventListener('ended', () => {});
+    if (this.subscription) {
+      this.subscription.unsubscribe();
     }
   }
 
-  togglePlay() {
-    if (this.audio) {
-      if (this.isPlaying) {
-        this.audio.pause();
-      } else {
-        this.audio.play();
-      }
-      this.isPlaying = !this.isPlaying;
+  async togglePlay() {
+    if (this.isPlaying) {
+      this.musicService.pause();
+    } else {
+      await this.musicService.play();
     }
+    this.isPlaying = this.musicService.isPlaying;
   }
 
   updateVolume(event: Event) {
     const input = event.target as HTMLInputElement;
     this.volume = parseInt(input.value);
-    if (this.audio) {
-      this.audio.volume = this.volume / 100;
-    }
+    this.musicService.setVolume(this.volume);
   }
 
   seek(event: MouseEvent) {
-    if (this.audio) {
-      const progressBar = event.currentTarget as HTMLDivElement;
-      const clickPosition = event.offsetX / progressBar.offsetWidth;
-      this.audio.currentTime = clickPosition * this.audio.duration;
-    }
+    const progressBar = event.currentTarget as HTMLDivElement;
+    const clickPosition = (event.offsetX / progressBar.offsetWidth) * 100;
+    this.musicService.seek(clickPosition);
   }
 
-  private formatTime(seconds: number): string {
-    const minutes = Math.floor(seconds / 60);
-    const remainingSeconds = Math.floor(seconds % 60);
-    return `${minutes}:${remainingSeconds.toString().padStart(2, '0')}`;
+  playNext() {
+    this.musicService.playNext();
   }
 
-  private updateProgress() {
-    if (this.audio) {
-      this.currentSong.currentTime = this.formatTime(this.audio.currentTime);
-      this.currentSong.progress = (this.audio.currentTime / this.audio.duration) * 100;
-    }
+  playPrevious() {
+    this.musicService.playPrevious();
   }
 }

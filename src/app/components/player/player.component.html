@@ -9,14 +9,14 @@
 
   <div class="player-controls">
     <div class="control-buttons">
-      <button class="control-button">
+      <button class="control-button" (click)="playPrevious()">
         <mat-icon>skip_previous</mat-icon>
       </button>
       <button class="control-button play-button" (click)="togglePlay()">
         <mat-icon *ngIf="!isPlaying">play_arrow</mat-icon>
         <mat-icon *ngIf="isPlaying">pause</mat-icon>
       </button>
-      <button class="control-button">
+      <button class="control-button" (click)="playNext()">
         <mat-icon>skip_next</mat-icon>
       </button>
     </div>
