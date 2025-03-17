@@ -62,80 +62,106 @@
       ]
     },
     {
-      "id": "3",
-      "name": "Mix Diario 3",
-      "description": "Nuevos descubrimientos",
-      "coverUrl": "https://picsum.photos/seed/playlist3/300/300",
+      "id": "6",
+      "name": "Rock Clásico",
+      "description": "Los mejores clásicos",
+      "coverUrl": "https://picsum.photos/seed/rock1/300/300",
       "songs": [
         {
-          "id": "6",
-          "title": "Mountain High",
-          "artist": "Peak Climbers",
-          "album": "Summit",
+          "id": "12",
+          "title": "Highway Dreams",
+          "artist": "The Rolling Stones",
+          "album": "Rock Classics",
           "duration": "4:15",
-          "coverUrl": "https://picsum.photos/seed/song6/300/300",
+          "coverUrl": "https://picsum.photos/seed/rock12/300/300",
           "audioUrl": "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-6.mp3"
         },
         {
-          "id": "7",
-          "title": "City Lights",
-          "artist": "Urban Beats",
-          "album": "Metropolis",
-          "duration": "3:50",
-          "coverUrl": "https://picsum.photos/seed/song7/300/300",
+          "id": "13",
+          "title": "Stairway",
+          "artist": "Led Zeppelin",
+          "album": "Rock Anthems",
+          "duration": "5:30",
+          "coverUrl": "https://picsum.photos/seed/rock13/300/300",
           "audioUrl": "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-7.mp3"
         }
       ]
     },
     {
-      "id": "4",
-      "name": "Mix Diario 4",
-      "description": "Artistas que te gustan",
-      "coverUrl": "https://picsum.photos/seed/playlist4/300/300",
+      "id": "7",
+      "name": "Rock Alternativo",
+      "description": "Lo mejor del rock alternativo",
+      "coverUrl": "https://picsum.photos/seed/rock2/300/300",
       "songs": [
         {
-          "id": "8",
-          "title": "Forest Walk",
-          "artist": "Nature Sounds",
-          "album": "Peaceful Path",
-          "duration": "4:45",
-          "coverUrl": "https://picsum.photos/seed/song8/300/300",
+          "id": "14",
+          "title": "Dark Matter",
+          "artist": "Alternative Minds",
+          "album": "New Wave",
+          "duration": "3:45",
+          "coverUrl": "https://picsum.photos/seed/rock14/300/300",
           "audioUrl": "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-8.mp3"
         },
         {
-          "id": "9",
-          "title": "Starlight",
-          "artist": "Night Sky",
-          "album": "Celestial",
-          "duration": "3:30",
-          "coverUrl": "https://picsum.photos/seed/song9/300/300",
+          "id": "15",
+          "title": "Neon Lights",
+          "artist": "The Strokes",
+          "album": "Modern Rock",
+          "duration": "4:20",
+          "coverUrl": "https://picsum.photos/seed/rock15/300/300",
           "audioUrl": "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-9.mp3"
         }
       ]
     },
     {
-      "id": "5",
-      "name": "Mix Diario 5",
-      "description": "Lo mejor de tu semana",
-      "coverUrl": "https://picsum.photos/seed/playlist5/300/300",
+      "id": "11",
+      "name": "Pop Latino",
+      "description": "Los hits latinos",
+      "coverUrl": "https://picsum.photos/seed/pop1/300/300",
       "songs": [
         {
-          "id": "10",
-          "title": "Ocean Waves",
-          "artist": "Beach Vibes",
-          "album": "Coastal",
-          "duration": "4:20",
-          "coverUrl": "https://picsum.photos/seed/song10/300/300",
+          "id": "16",
+          "title": "Bailando",
+          "artist": "Latino Stars",
+          "album": "Fiesta Total",
+          "duration": "3:30",
+          "coverUrl": "https://picsum.photos/seed/pop16/300/300",
           "audioUrl": "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-10.mp3"
         },
         {
-          "id": "11",
-          "title": "Mountain Air",
-          "artist": "Alpine Echo",
-          "album": "Heights",
-          "duration": "3:40",
-          "coverUrl": "https://picsum.photos/seed/song11/300/300",
+          "id": "17",
+          "title": "Amor Eterno",
+          "artist": "Corazón Latino",
+          "album": "Ritmo Latino",
+          "duration": "4:00",
+          "coverUrl": "https://picsum.photos/seed/pop17/300/300",
           "audioUrl": "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"
+        }
+      ]
+    },
+    {
+      "id": "12",
+      "name": "Pop 2024",
+      "description": "Lo nuevo del pop",
+      "coverUrl": "https://picsum.photos/seed/pop2/300/300",
+      "songs": [
+        {
+          "id": "18",
+          "title": "Modern Love",
+          "artist": "Pop Queens",
+          "album": "New Generation",
+          "duration": "3:15",
+          "coverUrl": "https://picsum.photos/seed/pop18/300/300",
+          "audioUrl": "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3"
+        },
+        {
+          "id": "19",
+          "title": "Dancing Tonight",
+          "artist": "The Pop Band",
+          "album": "Party Time",
+          "duration": "3:45",
+          "coverUrl": "https://picsum.photos/seed/pop19/300/300",
+          "audioUrl": "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3"
         }
       ]
     }

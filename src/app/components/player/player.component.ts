@@ -15,7 +15,7 @@ import { Subscription } from 'rxjs';
 export class PlayerComponent implements OnInit, OnDestroy {
   currentSong!: CurrentSong;
   private subscription: Subscription | null = null;
-  volume = 50;
+  volume = 100;
   isPlaying = false;
 
   constructor(private musicService: MusicService) {}
