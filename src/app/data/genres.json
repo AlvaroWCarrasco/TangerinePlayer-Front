@@ -2,27 +2,27 @@
   "genres": [
     {
       "id": "1",
-      "name": "Indie Electronic",
-      "coverUrl": "https://picsum.photos/seed/genre1/300/300",
-      "description": "Experimental electronic music with an indie twist",
-      "popularSongs": ["1"],
-      "popularArtists": ["Luna Eclipse"]
+      "name": "Chill Vibes",
+      "description": "Perfect for relaxing moments",
+      "coverUrl": "https://picsum.photos/seed/playlist1/300/300",
+      "createdBy": "user123",
+      "songs": ["1", "3"]
     },
     {
       "id": "2",
-      "name": "Alternative Rock",
-      "coverUrl": "https://picsum.photos/seed/genre2/300/300",
-      "description": "Modern rock with alternative influences",
-      "popularSongs": ["2"],
-      "popularArtists": ["The City Lights"]
+      "name": "Electronic Dreams",
+      "description": "Electronic beats for your journey",
+      "coverUrl": "https://picsum.photos/seed/playlist2/300/300",
+      "createdBy": "user123",
+      "songs": ["2", "3"]
     },
     {
       "id": "3",
-      "name": "World Fusion",
-      "coverUrl": "https://picsum.photos/seed/genre3/300/300",
-      "description": "A blend of world music styles",
-      "popularSongs": ["3"],
-      "popularArtists": ["Nomad Soul"]
+      "name": "Indie Mix",
+      "description": "Best independent artists",
+      "coverUrl": "https://picsum.photos/seed/playlist3/300/300",
+      "createdBy": "user123",
+      "songs": ["1", "2"]
     }
   ]
 }
