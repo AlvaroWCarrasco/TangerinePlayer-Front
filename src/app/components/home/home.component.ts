@@ -13,4 +13,5 @@ import sectionsData from '../../data/sections.json';
 })
 export class HomeComponent {
   sections = sectionsData.sections;
+  isSidebarOpen = false;
 }

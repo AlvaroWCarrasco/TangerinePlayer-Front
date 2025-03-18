@@ -62,9 +62,7 @@ describe('PlayerComponent', () => {
   });
 
   it('should update volume', () => {
-    const event = new Event('input');
-    Object.defineProperty(event, 'target', { value: { value: '50' } });
-    
+    const event = { target: { value: '50' } } as unknown as Event;
     component.updateVolume(event);
     expect(musicService.setVolume).toHaveBeenCalledWith(50);
   });
@@ -77,5 +75,15 @@ describe('PlayerComponent', () => {
     
     component.seek(event);
     expect(musicService.seek).toHaveBeenCalledWith(50);
+  });
+
+  it('should play next song', () => {
+    component.playNext();
+    expect(musicService.playNext).toHaveBeenCalled();
+  });
+
+  it('should play previous song', () => {
+    component.playPrevious();
+    expect(musicService.playPrevious).toHaveBeenCalled();
   });
 });

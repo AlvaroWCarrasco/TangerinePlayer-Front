@@ -7,6 +7,15 @@
   position: fixed;
   left: 0;
   top: 0;
+  z-index: 900;
+  transition: transform 0.3s ease;
+  transform: translateX(-100%);
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.sidebar.active {
+  transform: translateX(0);
 }
 
 .user-profile {
@@ -14,6 +23,7 @@
   align-items: center;
   margin-bottom: 2rem;
   padding: 1rem;
+  margin-top: 60px;
 }
 
 .user-profile img {
@@ -72,4 +82,43 @@
 
 .playlist-item:hover {
   background-color: #333;
+}
+
+.menu-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: fixed;
+  top: 1rem;
+  left: 1rem;
+  z-index: 1000;
+  background: #FF6B00;
+  border: none;
+  color: white;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  cursor: pointer;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.menu-toggle:hover {
+  background-color: #FF8533;
+}
+
+@media (max-width: 768px) {
+  .user-profile {
+    margin-top: 70px;
+  }
+
+  .sidebar {
+    width: 100%;
+    max-width: 300px;
+  }
+}
+
+@media (max-width: 480px) {
+  .user-profile {
+    margin-top: 60px;
+  }
 }
