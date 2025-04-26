@@ -1,36 +1,43 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { HeaderComponent } from './header.component';
+import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { SpotifyService, SpotifySearchResult } from '../../services/spotify.service';
+import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
+import { Subject } from 'rxjs';
 
-describe('HeaderComponent', () => {
-  let component: HeaderComponent;
-  let fixture: ComponentFixture<HeaderComponent>;
+@Component({
+  selector: 'app-header',
+  templateUrl: './header.component.html',
+  styleUrls: ['./header.component.css'],
+  standalone: true,
+  imports: [CommonModule, FormsModule]
+})
+export class HeaderComponent {
+  searchQuery: string = '';
+  searchResults: SpotifySearchResult[] = [];
+  private searchSubject = new Subject<string>();
 
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      imports: [HeaderComponent, FormsModule]
-    }).compileComponents();
-  });
+  constructor(private spotifyService: SpotifyService) {
+    this.setupSearch();
+  }
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(HeaderComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+  private setupSearch() {
+    this.searchSubject.pipe(
+      debounceTime(300),
+      distinctUntilChanged(),
+      switchMap(query => this.spotifyService.search(query))
+    ).subscribe(results => {
+      this.searchResults = results;
+    });
+  }
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
+  onSearch() {
+    this.searchSubject.next(this.searchQuery);
+  }
 
-  it('should initialize with empty search query', () => {
-    expect(component.searchQuery).toBe('');
-    expect(component.searchResults).toEqual([]);
-  });
-
-  it('should handle search', () => {
-    spyOn(console, 'log');
-    component.searchQuery = 'test';
-    component.onSearch();
-    expect(console.log).toHaveBeenCalledWith('Searching for:', 'test');
-  });
-});
+  selectTrack(track: SpotifySearchResult) {
+    console.log('Selected track:', track);
+    this.searchResults = [];
+    this.searchQuery = '';
+  }
+}

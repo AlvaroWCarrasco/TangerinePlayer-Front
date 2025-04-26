@@ -1,41 +1,87 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { SidebarComponent } from './sidebar.component';
+import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
+import { CreatePlaylistModalComponent } from '../shared/create-playlist-modal/create-playlist-modal.component';
+import userData from '../../data/user.json';
+import { UserData } from '../../types/data.types';
+import { BehaviorSubject } from 'rxjs';
+import { PlaylistService } from '../../services/playlist.service';
+import { Playlist } from '../../interfaces/music.interfaces';
+import { NavigationService } from '../../services/navigation.service';
 
-describe('SidebarComponent', () => {
-  let component: SidebarComponent;
-  let fixture: ComponentFixture<SidebarComponent>;
+@Component({
+  selector: 'app-sidebar',
+  templateUrl: './sidebar.component.html',
+  styleUrls: ['./sidebar.component.css'],
+  standalone: true,
+  imports: [CommonModule, MatIconModule, CreatePlaylistModalComponent]
+})
+export class SidebarComponent implements OnInit {
+  private isSidebarOpenSubject = new BehaviorSubject<boolean>(false);
+  isSidebarOpen$ = this.isSidebarOpenSubject.asObservable();
+  isSidebarOpen = false;
+  showCreatePlaylistModal = false;
+  playlists: Playlist[] = [];
 
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      imports: [SidebarComponent, MatIconModule]
-    }).compileComponents();
-  });
+  user = {
+    name: (userData as UserData).user.username,
+    profilePic: (userData as UserData).user.profilePic
+  };
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(SidebarComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+  constructor(
+    private playlistService: PlaylistService,
+    private navigationService: NavigationService
+  ) {
+    this.isSidebarOpen$.subscribe(
+      isOpen => this.isSidebarOpen = isOpen
+    );
+  }
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
+  ngOnInit() {
+    this.loadPlaylists();
+  }
 
-  it('should load user data', () => {
-    expect(component.user.name).toBeTruthy();
-    expect(component.user.profilePic).toBeTruthy();
-  });
+  private loadPlaylists() {
+    this.playlistService.getPlaylists().subscribe({
+      next: (playlists) => {
+        console.log('Playlists loaded:', playlists);
+        this.playlists = playlists;
+      },
+      error: (error) => {
+        console.error('Error loading playlists:', error);
+        this.playlists = [];
+      }
+    });
+  }
 
-  it('should load playlists', () => {
-    expect(component.playlists.length).toBeGreaterThan(0);
-  });
+  addPlaylist() {
+    this.showCreatePlaylistModal = true;
+  }
 
-  it('should toggle sidebar', () => {
-    expect(component.isSidebarOpen).toBeFalse();
-    component.toggleSidebar();
-    expect(component.isSidebarOpen).toBeTrue();
-    component.toggleSidebar();
-    expect(component.isSidebarOpen).toBeFalse();
-  });
-});
+  toggleSidebar() {
+    this.isSidebarOpenSubject.next(!this.isSidebarOpenSubject.value);
+  }
+
+  onCloseModal() {
+    this.showCreatePlaylistModal = false;
+  }
+
+  onCreatePlaylist(name: string) {
+    this.playlistService.createPlaylist(name).subscribe({
+      next: () => {
+        this.loadPlaylists();
+        this.showCreatePlaylistModal = false;
+      },
+      error: (error) => {
+        console.error('Error creating playlist:', error);
+      }
+    });
+  }
+
+  openPlaylist(playlistId: string) {
+    if (playlistId) {
+      this.navigationService.showPlaylist(playlistId);
+      this.toggleSidebar();
+    }
+  }
+}

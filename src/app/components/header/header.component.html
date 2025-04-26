@@ -8,8 +8,12 @@
       class="search-input"
     >
     <div class="search-results" *ngIf="searchResults.length > 0">
-      <div class="result-item" *ngFor="let result of searchResults">
-        <img [src]="result.image" alt="Album cover">
+      <div 
+        class="result-item" 
+        *ngFor="let result of searchResults"
+        (click)="selectTrack(result)"
+      >
+        <img [src]="result.image" [alt]="result.title">
         <div class="result-info">
           <p class="song-title">{{result.title}}</p>
           <p class="artist-name">{{result.artist}}</p>

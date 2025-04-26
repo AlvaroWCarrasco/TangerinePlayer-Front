@@ -2,6 +2,7 @@ import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 import { MusicService } from '../../../services/music.service';
+import { NavigationService } from '../../../services/navigation.service';
 import { PlaylistCard } from '../../../interfaces/music.interfaces';
 
 @Component({
@@ -14,11 +15,21 @@ import { PlaylistCard } from '../../../interfaces/music.interfaces';
 export class PlaylistCardComponent {
   @Input() playlist!: PlaylistCard;
 
-  constructor(private musicService: MusicService) {}
+  constructor(
+    private musicService: MusicService,
+    private navigationService: NavigationService
+  ) {}
 
-  playPlaylist() {
+  playPlaylist(event: MouseEvent) {
+    event.stopPropagation();
     if (this.playlist.id) {
       this.musicService.playPlaylist(this.playlist.id);
+    }
+  }
+
+  openPlaylist() {
+    if (this.playlist.id) {
+      this.navigationService.showPlaylist(this.playlist.id);
     }
   }
 }

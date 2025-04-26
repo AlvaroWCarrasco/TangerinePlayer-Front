@@ -30,13 +30,11 @@ export class MusicService {
 
   private initAudio() {
     this.audioElement = new Audio();
-    this.audioElement.volume = 0.5;
+    this.audioElement.volume = 1;
 
     this.audioElement.addEventListener('timeupdate', () => this.updateProgress());
     this.audioElement.addEventListener('loadedmetadata', () => this.updateDuration());
-    this.audioElement.addEventListener('ended', () => {
-      this.playNext();
-    });
+    this.audioElement.addEventListener('ended', () => this.playNext());
   }
 
   private formatTime(seconds: number): string {
@@ -54,7 +52,7 @@ export class MusicService {
     this.currentSongSubject.next({
       ...this.currentSongSubject.value,
       currentTime,
-      progress
+      progress: isNaN(progress) ? 0 : progress
     });
   }
 
@@ -69,19 +67,19 @@ export class MusicService {
     });
   }
 
-  private loadSong(song: Song) {
+  loadSong(song: Song) {
     if (!this.audioElement) return;
 
     this.audioElement.src = song.audioUrl;
+    this.audioElement.load();
     
     this.currentSongSubject.next({
-      ...this.currentSongSubject.value,
       title: song.title,
       artist: song.artist,
       image: song.coverUrl,
       audioUrl: song.audioUrl,
       currentTime: '0:00',
-      duration: '0:00',
+      duration: song.duration,
       progress: 0
     });
   }
@@ -120,8 +118,14 @@ export class MusicService {
 
   async play() {
     if (!this.audioElement) return;
-    await this.audioElement.play();
-    this.isPlaying = true;
+    
+    try {
+      await this.audioElement.play();
+      this.isPlaying = true;
+    } catch (error) {
+      console.error('Error playing audio:', error);
+      this.isPlaying = false;
+    }
   }
 
   pause() {
@@ -132,13 +136,15 @@ export class MusicService {
 
   setVolume(volume: number) {
     if (this.audioElement) {
-      this.audioElement.volume = volume / 100;
+      this.audioElement.volume = Math.max(0, Math.min(1, volume / 100));
     }
   }
 
   seek(percentage: number) {
-    if (this.audioElement) {
-      const time = (percentage / 100) * this.audioElement.duration;
+    if (!this.audioElement) return;
+    
+    const time = (percentage / 100) * (this.audioElement.duration || 0);
+    if (!isNaN(time)) {
       this.audioElement.currentTime = time;
       this.updateProgress();
     }

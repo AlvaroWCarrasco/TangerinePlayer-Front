@@ -1,41 +1,108 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
+import { CreatePlaylistModalComponent } from '../shared/create-playlist-modal/create-playlist-modal.component';
 import userData from '../../data/user.json';
-import playlistsData from '../../data/playlists.json';
-import { UserData, PlaylistsData } from '../../types/data.types';
+import { UserData } from '../../types/data.types';
 import { BehaviorSubject } from 'rxjs';
+import { PlaylistService } from '../../services/playlist.service';
+import { Playlist } from '../../interfaces/music.interfaces';
+import { NavigationService } from '../../services/navigation.service';
 
 @Component({
   selector: 'app-sidebar',
   templateUrl: './sidebar.component.html',
   styleUrls: ['./sidebar.component.css'],
   standalone: true,
-  imports: [CommonModule, MatIconModule]
+  imports: [CommonModule, MatIconModule, CreatePlaylistModalComponent]
 })
-export class SidebarComponent {
+export class SidebarComponent implements OnInit {
   private isSidebarOpenSubject = new BehaviorSubject<boolean>(false);
   isSidebarOpen$ = this.isSidebarOpenSubject.asObservable();
   isSidebarOpen = false;
+  showCreatePlaylistModal = false;
+  playlists: Playlist[] = [];
+  activeOptionsMenu: string | null = null;
 
   user = {
     name: (userData as UserData).user.username,
     profilePic: (userData as UserData).user.profilePic
   };
 
-  playlists = (playlistsData as PlaylistsData).playlists.map(playlist => playlist.name);
-
-  constructor() {
+  constructor(
+    private playlistService: PlaylistService,
+    private navigationService: NavigationService
+  ) {
     this.isSidebarOpen$.subscribe(
       isOpen => this.isSidebarOpen = isOpen
     );
   }
 
+  ngOnInit() {
+    this.loadPlaylists();
+  }
+
+  private loadPlaylists() {
+    this.playlistService.getPlaylists().subscribe({
+      next: (playlists) => {
+        console.log('Playlists loaded:', playlists);
+        this.playlists = playlists;
+      },
+      error: (error) => {
+        console.error('Error loading playlists:', error);
+        this.playlists = [];
+      }
+    });
+  }
+
   addPlaylist() {
-    console.log('Adding new playlist');
+    this.showCreatePlaylistModal = true;
   }
 
   toggleSidebar() {
     this.isSidebarOpenSubject.next(!this.isSidebarOpenSubject.value);
+  }
+
+  onCloseModal() {
+    this.showCreatePlaylistModal = false;
+  }
+
+  onCreatePlaylist(name: string) {
+    this.playlistService.createPlaylist(name).subscribe({
+      next: () => {
+        this.loadPlaylists();
+        this.showCreatePlaylistModal = false;
+      },
+      error: (error) => {
+        console.error('Error creating playlist:', error);
+      }
+    });
+  }
+
+  openPlaylist(playlistId: string) {
+    if (playlistId) {
+      this.navigationService.showPlaylist(playlistId);
+      this.toggleSidebar();
+    }
+  }
+
+  toggleOptions(playlistId: string, event: Event) {
+    event.stopPropagation();
+    this.activeOptionsMenu = this.activeOptionsMenu === playlistId ? null : playlistId;
+  }
+
+  deletePlaylist(playlistId: string) {
+    this.playlistService.deletePlaylist(playlistId).subscribe({
+      next: () => {
+        this.loadPlaylists();
+        this.activeOptionsMenu = null;
+        if (playlistId === this.navigationService.getCurrentPlaylistId()) {
+          this.navigationService.showHome();
+        }
+      },
+      error: (error) => {
+        console.error('Error deleting playlist:', error);
+      }
+    });
   }
 }
