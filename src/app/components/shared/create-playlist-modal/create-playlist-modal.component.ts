@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
@@ -13,6 +13,7 @@ import { MatIconModule } from '@angular/material/icon';
 export class CreatePlaylistModalComponent {
   @Output() close = new EventEmitter<void>();
   @Output() create = new EventEmitter<string>();
+  @Input() errorMessage: string | null = null;
   
   playlistName: string = '';
 
@@ -25,5 +26,9 @@ export class CreatePlaylistModalComponent {
       this.create.emit(this.playlistName.trim());
       this.playlistName = '';
     }
+  }
+
+  onInputChange() {
+    this.errorMessage = null;
   }
 }

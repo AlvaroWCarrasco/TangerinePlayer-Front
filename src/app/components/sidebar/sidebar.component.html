@@ -33,6 +33,7 @@
 
 <app-create-playlist-modal
   *ngIf="showCreatePlaylistModal"
+  [errorMessage]="errorMessage"
   (close)="onCloseModal()"
   (create)="onCreatePlaylist($event)"
 ></app-create-playlist-modal>

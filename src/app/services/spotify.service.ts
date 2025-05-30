@@ -9,7 +9,10 @@ export interface SpotifySearchResult {
   title: string;
   artist: string;
   album: string;
+  duration: string;
   image: string;
+  coverUrl: string;
+  audioUrl: string;
 }
 
 export interface SpotifyPlaylist {
@@ -82,14 +85,25 @@ export class SpotifyService {
           'Authorization': `Bearer ${token}`
         });
 
-        return this.http.get(`${this.apiUrl}/browse/featured-playlists`, { headers }).pipe(
+        const params = new HttpParams()
+          .set('limit', '20')
+          .set('country', 'ES')
+          .set('locale', 'es_ES');
+
+        console.log('Fetching featured playlists...');
+        return this.http.get(`${this.apiUrl}/browse/featured-playlists`, { headers, params }).pipe(
+          tap(response => console.log('Featured playlists response:', response)),
           map((response: any) => {
-            return response.playlists.items.map((playlist: any) => ({
-              id: playlist.id,
-              name: playlist.name,
-              description: playlist.description,
-              image: playlist.images[0]?.url
-            }));
+            if (response?.playlists?.items) {
+              return response.playlists.items.map((playlist: any) => ({
+                id: playlist.id,
+                name: playlist.name,
+                description: playlist.description || '',
+                image: playlist.images?.[0]?.url || 'https://picsum.photos/seed/default/300/300'
+              }));
+            }
+            console.warn('No playlists found in response');
+            return [];
           }),
           catchError(error => {
             console.error('Error fetching featured playlists:', error);
@@ -111,14 +125,20 @@ export class SpotifyService {
           .set('seed_genres', genreId)
           .set('limit', '5');
 
+        console.log(`Fetching playlists for genre: ${genreId}`);
         return this.http.get(`${this.apiUrl}/recommendations`, { headers, params }).pipe(
+          tap(response => console.log('Genre playlists response:', response)),
           map((response: any) => {
-            return response.tracks.map((track: any) => ({
-              id: track.id,
-              name: track.name,
-              description: track.artists[0].name,
-              image: track.album.images[0]?.url
-            }));
+            if (response?.tracks) {
+              return response.tracks.map((track: any) => ({
+                id: track.id,
+                name: track.name,
+                description: track.artists?.[0]?.name || '',
+                image: track.album?.images?.[0]?.url || 'https://picsum.photos/seed/default/300/300'
+              }));
+            }
+            console.warn('No tracks found in response');
+            return [];
           }),
           catchError(error => {
             console.error('Error fetching genre playlists:', error);
@@ -143,25 +163,41 @@ export class SpotifyService {
         const params = new HttpParams()
           .set('q', query)
           .set('type', 'track')
+          .set('market', 'ES')
           .set('limit', '5');
 
+        console.log(`Searching for: ${query}`);
         return this.http.get(`${this.apiUrl}/search`, { headers, params }).pipe(
+          tap(response => console.log('Search response:', response)),
           map((response: any) => {
-            return response.tracks.items.map((track: any) => ({
-              id: track.id,
-              title: track.name,
-              artist: track.artists[0].name,
-              album: track.album.name,
-              image: track.album.images[0]?.url
-            }));
+            if (response?.tracks?.items) {
+              return response.tracks.items.map((track: any) => ({
+                id: track.id,
+                title: track.name,
+                artist: track.artists?.[0]?.name || 'Unknown Artist',
+                album: track.album?.name || 'Unknown Album',
+                duration: this.formatDuration(track.duration_ms),
+                image: track.album?.images?.[0]?.url || 'https://picsum.photos/seed/default/300/300',
+                coverUrl: track.album?.images?.[0]?.url || 'https://picsum.photos/seed/default/300/300',
+                audioUrl: track.preview_url || 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3'
+              }));
+            }
+            console.warn('No tracks found in response');
+            return [];
           }),
           catchError(error => {
-            console.error('Error searching Spotify:', error);
+            console.error('Error searching tracks:', error);
             return of([]);
           })
         );
       })
     );
+  }
+
+  private formatDuration(ms: number): string {
+    const minutes = Math.floor(ms / 60000);
+    const seconds = Math.floor((ms % 60000) / 1000);
+    return `${minutes}:${seconds.toString().padStart(2, '0')}`;
   }
 
   private searchTracks(query: string): Observable<SpotifySearchResult[]> {

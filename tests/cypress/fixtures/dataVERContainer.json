@@ -1,0 +1,21 @@
+{
+    "urlCitaPreviaGestores": "https://webtest.sae.junta-andalucia.es/servicioandaluzdeempleo/ver/citaprevia/users/sign_in",
+    "urlCAS": "https://webtest.sae.junta-andalucia.es/autenticacion/login",
+    "urlCitaPreviaCiudadanos": "https://webtest.sae.junta-andalucia.es/servicioandaluzdeempleo/ver/citaprevia/public/",
+    "correoGestor1": "gestoramate@oci.es",
+    "passGestor1": "123456",
+    "correoGestor2": "gestor@prueba.com",
+    "passGestor2": "123456",
+    "usuarioCiudadano1": "40325668K",
+    "passCiudadano1": "159753",
+    "emailDocumentacion": "oc.sae@juntadeandalucia.es",
+    "documentacionSolicitada": "Se solicita la documentacion para la prueba",
+    "urlDocumentoCaducado": "https://webtest.sae.junta-andalucia.es/servicioandaluzdeempleo/ver/citaprevia/document_requests?day=2022-03-10",
+    "urlDocumentoRecibido": "https://webtest.sae.junta-andalucia.es/servicioandaluzdeempleo/ver/citaprevia/document_requests?day=2022-03-16",
+    "urlDocumentoProcesado": "https://webtest.sae.junta-andalucia.es/servicioandaluzdeempleo/ver/citaprevia/document_requests?day=2022-03-17",
+    "nombreFichero": "\/SW_CitaPrevia_Plan_de_Pruebas-SmokeTest-v1.pdf",
+    "urlDocumentacionDescargar": "https://webtest.sae.junta-andalucia.es/servicioandaluzdeempleo/ver/citaprevia/document_requests/1647513764f0197653bd13a6945eef59eb49ef05b5/download?f=49b102e57f87177c3d9d048da383ee1c",
+    "usuarioCiudadano2": "65919929C",
+    "passCiudadano2": "159753"
+
+}

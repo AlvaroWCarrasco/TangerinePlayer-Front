@@ -9,8 +9,10 @@ export interface Song {
 }
 
 export interface CurrentSong {
+  id: string;
   title: string;
   artist: string;
+  album: string;
   image: string;
   audioUrl: string;
   currentTime: string;
