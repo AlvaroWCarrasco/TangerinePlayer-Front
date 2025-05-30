@@ -15,9 +15,25 @@
   <div class="playlists-container">
     <h4>Tus Playlists</h4>
     <div class="playlists-list">
-      <div class="playlist-item" *ngFor="let playlist of playlists">
-        {{playlist}}
+      <div class="playlist-item" *ngFor="let playlist of playlists" (click)="openPlaylist(playlist.id)">
+        <div class="playlist-name">{{playlist.name}}</div>
+        <button class="more-options" (click)="toggleOptions(playlist.id, $event)">
+          <mat-icon>more_vert</mat-icon>
+        </button>
+        <div class="options-menu" *ngIf="activeOptionsMenu === playlist.id">
+          <div class="menu-item delete" (click)="deletePlaylist(playlist.id)">
+            <mat-icon>delete</mat-icon>
+            Eliminar
+          </div>
+        </div>
       </div>
     </div>
   </div>
 </div>
+
+<app-create-playlist-modal
+  *ngIf="showCreatePlaylistModal"
+  [errorMessage]="errorMessage"
+  (close)="onCloseModal()"
+  (create)="onCreatePlaylist($event)"
+></app-create-playlist-modal>

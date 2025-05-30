@@ -1,0 +1,36 @@
+{
+    "name": "SAE-Ofertas-cypress",
+    "version": "0.0.1",
+    "license": "MIT",
+    "scripts": {
+        "release": "standard-version",
+        "preproduccion": "cypress run --spec 'cypress/integration/pruebasHermesPre.spec.js'",
+        "integracion": "cypress run --spec 'cypress/integration/pruebasHermesInt.spec.js'"
+    },
+    "private": false,
+    "Dependencies": {
+        "cypress": "12.17.4",
+        "@badeball/cypress-cucumber-preprocessor": "15.1.4",
+        "@bahmutov/cypress-esbuild-preprocessor": "2.2.0",
+        "@cypress/xpath": "2.0.3",
+        "@deepakvishwakarma/cucumber-json-formatter": "0.0.3"
+    },
+    "cypress-cucumber-preprocessor": {
+        "stepDefinitions": "cypress/e2e/**/*.{js,ts}",
+        "filterSpecs": true,
+        "omitFiltered": true,
+        "json": {
+            "enabled": true,
+            "output": "cypress/reports/cucumber-json/cucumber-report.json",
+            "formatter": "./node_modules/@deepakvishwakarma/cucumber-json-formatter/lib/main.js"
+        }
+    },
+    "devDependencies": {
+        "@badeball/cypress-cucumber-preprocessor": "^22.0.0",
+        "@bahmutov/cypress-esbuild-preprocessor": "2.2.0",
+        "@cypress/xpath": "2.0.3",
+        "@deepakvishwakarma/cucumber-json-formatter": "0.0.3",
+        "cypress": "^14.0.0",
+        "cypress-xpath": "^2.0.1"
+    }
+}
